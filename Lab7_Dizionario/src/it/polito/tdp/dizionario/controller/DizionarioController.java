@@ -2,6 +2,8 @@ package it.polito.tdp.dizionario.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.dizionario.model.DizionarioModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -36,6 +38,12 @@ public class DizionarioController {
 
     @FXML
     private Button btnReset;
+    
+    private DizionarioModel model;
+    
+    public void setModel(DizionarioModel model){
+    	this.model = model;
+    }
 
     @FXML
     void doFindConnected(ActionEvent event) {
