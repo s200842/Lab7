@@ -1,7 +1,11 @@
 package it.polito.tdp.dizionario.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
@@ -35,6 +39,7 @@ public class DizionarioModel {
 		ParolaDAO dao = new ParolaDAO();
 		List<Parola> paroleTotali = dao.findWordByLength(l);
 		for(Parola p : paroleTotali){
+			//System.out.println(p.toString());
 			graph.addVertex(p);
 		}
 		//Ora ho un grafo con tutte le parole da "l lettere" come nodi.
@@ -49,6 +54,46 @@ public class DizionarioModel {
 					}
 				}
 			}
+		}
+	}
+	
+	public Set<Parola> findNeighbors(Parola p){
+		Set<Parola> vicini = new HashSet<Parola>();
+		//Controllo se ho un nodo contenente la parola
+		if(!graph.containsVertex(p)){
+			return null;
+		}
+		else{
+			for(Parola p2 : Graphs.neighborListOf(graph, p)){
+				vicini.add(p2);
+			}
+		}
+		return vicini;
+	}
+	
+	public List<Parola> findConnections(Parola p){
+		List<Parola> visited = new ArrayList<Parola>();
+		//Controllo se ho un nodo contenente la parola
+		if(!graph.containsVertex(p)){
+			return null;
+		}
+		else{
+			//Visita in profondità del grafo
+			
+			dfv(p, visited);
+		}
+		return visited;
+	}
+	
+	public void dfv(Parola start, List<Parola> visited){
+		//Algoritmo ricorsivo per la visita in profondità del grafo
+		//Se ho già visitato il nodo esco
+		if(visited.contains(start)){
+			return;
+		}
+		visited.add(start);
+		for(Parola p2 : Graphs.neighborListOf(graph, start)){
+			dfv(p2, visited);
 		}
 	}
 

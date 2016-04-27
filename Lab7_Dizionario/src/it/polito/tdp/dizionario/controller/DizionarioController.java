@@ -1,9 +1,12 @@
 package it.polito.tdp.dizionario.controller;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import it.polito.tdp.dizionario.model.DizionarioModel;
+import it.polito.tdp.dizionario.model.Parola;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -60,6 +63,12 @@ public class DizionarioController {
     	//Controlla se la parola inserita è della stessa lunghezza specificata
     	if(txtSearch.getText().length() != Integer.parseInt(txtLetters.getText())){
     		txtResult.appendText(String.format("\nLa parola inserita deve essere lunga %s caratteri", txtLetters.getText()));
+    		return;
+    	}
+    	List<Parola> connections = model.findConnections(new Parola(txtSearch.getText()));
+    	txtResult.appendText("\nLista connessioni della parola "+txtSearch.getText()+": ");
+    	for(Parola p : connections){
+    		txtResult.appendText(p+", ");
     	}
 
     }
@@ -79,6 +88,12 @@ public class DizionarioController {
     	//Controlla se la parola inserita è della stessa lunghezza specificata
     	if(txtSearch.getText().length() != Integer.parseInt(txtLetters.getText())){
     		txtResult.appendText(String.format("\nLa parola inserita deve essere lunga %s caratteri", txtLetters.getText()));
+    		return;
+    	}
+    	Set<Parola> neighbors = model.findNeighbors(new Parola(txtSearch.getText()));
+    	txtResult.appendText("\nLista vicini della parola "+txtSearch.getText()+": ");
+    	for(Parola p : neighbors){
+    		txtResult.appendText(p+", ");
     	}
     }
 
