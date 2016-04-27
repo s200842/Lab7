@@ -47,17 +47,45 @@ public class DizionarioController {
 
     @FXML
     void doFindConnected(ActionEvent event) {
+    	//Devo innanzitutto aver generato un grafo
+    	if(model.getGraph() == null){
+    		txtResult.setText("Nessun grafo generato.");
+    		return;
+    	}
+    	//Controlla se quella inserita è una parola
+    	if(!txtSearch.getText().matches("[a-zA-Z]*")){
+    		txtResult.appendText("\n Si prega di inserire una parola.");
+    		return;
+    	}
+    	//Controlla se la parola inserita è della stessa lunghezza specificata
+    	if(txtSearch.getText().length() != Integer.parseInt(txtLetters.getText())){
+    		txtResult.appendText(String.format("\nLa parola inserita deve essere lunga %s caratteri", txtLetters.getText()));
+    	}
 
     }
 
     @FXML
     void doFindNeighbors(ActionEvent event) {
-
+    	//Devo innanzitutto aver generato un grafo
+    	if(model.getGraph() == null){
+    		txtResult.setText("Nessun grafo generato.");
+    		return;
+    	}
+    	//Controlla se quella inserita è una parola
+    	if(!txtSearch.getText().matches("[a-zA-Z]*")){
+    		txtResult.appendText("\n Si prega di inserire una parola.");
+    		return;
+    	}
+    	//Controlla se la parola inserita è della stessa lunghezza specificata
+    	if(txtSearch.getText().length() != Integer.parseInt(txtLetters.getText())){
+    		txtResult.appendText(String.format("\nLa parola inserita deve essere lunga %s caratteri", txtLetters.getText()));
+    	}
     }
 
     @FXML
     void doGenerate(ActionEvent event) {
-    	//Cancella input precedente
+    	//Cancella input precedente e blocca input lettere
+    	txtLetters.setDisable(true);
     	txtSearch.clear();
     	txtResult.clear();
     	//Controlli sull'input nella casella
@@ -66,11 +94,12 @@ public class DizionarioController {
     		return;
     	}
     	model.createGraph(Integer.parseInt(txtLetters.getText()));
-    	txtResult.setText(String.format("Creato un grafo con %d vertici e %d archi", model.getGraph().vertexSet().size(), model.getGraph().edgeSet().size()));
+    	txtResult.setText(String.format("Creato un grafo con %d vertici e %d archi.", model.getGraph().vertexSet().size(), model.getGraph().edgeSet().size()));
     }
 
     @FXML
     void doReset(ActionEvent event) {
+    	txtLetters.setDisable(false);
     	txtLetters.clear();
     	txtSearch.clear();
     	txtResult.clear();
