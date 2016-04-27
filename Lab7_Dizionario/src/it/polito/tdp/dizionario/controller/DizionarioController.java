@@ -57,12 +57,23 @@ public class DizionarioController {
 
     @FXML
     void doGenerate(ActionEvent event) {
-
+    	//Cancella input precedente
+    	txtSearch.clear();
+    	txtResult.clear();
+    	//Controlli sull'input nella casella
+    	if(!txtLetters.getText().matches("[1-9]*")){
+    		txtResult.setText("Inserire un valore valido come lunghezza della parola.");
+    		return;
+    	}
+    	model.createGraph(Integer.parseInt(txtLetters.getText()));
+    	txtResult.setText(String.format("Creato un grafo con %d vertici e %d archi", model.getGraph().vertexSet().size(), model.getGraph().edgeSet().size()));
     }
 
     @FXML
     void doReset(ActionEvent event) {
-
+    	txtLetters.clear();
+    	txtSearch.clear();
+    	txtResult.clear();
     }
 
     @FXML
